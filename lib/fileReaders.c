@@ -62,7 +62,7 @@ double* read_double_numbers(const char *file_path, size_t *length) {
 /*	Reading all non-empty lines from the file "file_path"
 	Usage: 
 		int n;
-		char** lines = read_non_empty_lines("text.txt", &n);
+		char** lines = read_non_empty_lines("file.txt", &n);
 */
 char **read_non_empty_lines(const char *file_path, size_t *length) {
 	*length = 0;
@@ -111,7 +111,7 @@ char **read_non_empty_lines(const char *file_path, size_t *length) {
 /*	Reading all lines from the file "file_path"
 	Usage: 
 		int n;
-		char** lines = read_lines("text.txt", &n);
+		char** lines = read_lines("file.txt", &n);
 */
 char **read_lines(const char *file_path, size_t *length) {
 	*length = 0;
@@ -161,7 +161,7 @@ char **read_lines(const char *file_path, size_t *length) {
 /*	Reading words from the file "file_path", separated by space
 	Usage: 
 		int n;
-		char** words = read_words("text.txt", &n);
+		char** words = read_words("file.txt", &n);
 */
 char **read_words(const char *file_path, size_t *length) {
 	*length = 0;
@@ -223,7 +223,7 @@ int is_delim(char c, const char* delimeters) {
 /*	Reading words from the file "file_path", separated by symbols from the array of delimiters 'delimeters'
 	Usage: 
 		int n;
-		char** words = read_delimeted_words("text.txt", &n, " !?-");
+		char** words = read_delimeted_words("file.txt", &n, " !?-");
 */
 char **read_delimited_words(const char *file_path, size_t *length, const char *delimeters) {
 	*length = 0;
@@ -274,7 +274,7 @@ char **read_delimited_words(const char *file_path, size_t *length, const char *d
 /*	Reading struct example_t from the file "file_path"
 	Usage: 
 		int n;
-		example_t **examples = read_examples("text.txt", &n);
+		example_t **examples = read_examples("file.txt", &n);
 */
 example_t **read_examples(const char *file_path, size_t *length) {
 	*length = 0;
@@ -316,7 +316,7 @@ example_t **read_examples(const char *file_path, size_t *length) {
 /*	Reading struct example_bin_t from the BINARY file "file_path"
 	Usage: 
 		int n;
-		example_bin_t **examples = read_examples_bin("text.txt", &n);
+		example_bin_t **examples = read_examples_bin("file.bin", &n);
 */
 example_bin_t **read_examples_bin(const char *file_path, size_t *length) {
 	*length = 0;
@@ -350,7 +350,7 @@ example_bin_t **read_examples_bin(const char *file_path, size_t *length) {
 /*	Reading double matrix from the file "file_path"
 	Usage: 
 		int n, m;
-		double **examples = read_matrix("text.txt", &n, &m);
+		double **examples = read_matrix("file.txt", &n, &m);
 */
 double **read_matrix(const char *file_path, size_t *n, size_t *m) {
 	*n = *m = 0;
