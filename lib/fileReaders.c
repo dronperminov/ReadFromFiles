@@ -50,7 +50,7 @@ double* read_double_numbers(const char *file_path, size_t *length) {
 		(*length)++;
 
 		if (*length >= capacity)
-			numbers = (double *) realloc(numbers, (capacity *= 2) * sizeof(int));
+			numbers = (double *) realloc(numbers, (capacity *= 2) * sizeof(double));
 	}
 
 	fclose(f);
@@ -269,4 +269,41 @@ char **read_delimited_words(const char *file_path, size_t *length, const char *d
 	fclose(f);
 
 	return words;
+}
+
+example_t **read_examples(const char *file_path, size_t *length) {
+	*length = 0;
+
+	FILE *f = fopen(file_path, "r");
+
+	if (!f)
+		return NULL;
+
+	size_t capacity = 1;
+	example_t **examples = (example_t **) malloc(capacity * sizeof(example_t *));
+	examples[0] = (example_t *) malloc(sizeof(example_t));
+	examples[0]->surname = (char *) malloc(32 * sizeof(char));
+	examples[0]->name = (char *) malloc(32 * sizeof(char));
+	examples[0]->patronymic = (char *) malloc(32 * sizeof(char));
+
+	while (fscanf(f, "%s %s %s %d %lf", examples[*length]->surname, examples[*length]->name, examples[*length]->patronymic, &examples[*length]->age, &examples[*length]->weight) != EOF) {
+		(*length)++;
+
+		if (*length >= capacity)
+			examples = (example_t **) realloc(examples, (capacity *= 2) * sizeof(example_t *));
+
+		examples[*length] = (example_t *) malloc(sizeof(example_t));
+		examples[*length]->surname = (char *) malloc(32 * sizeof(char));
+		examples[*length]->name = (char *) malloc(32 * sizeof(char));
+		examples[*length]->patronymic = (char *) malloc(32 * sizeof(char));
+	}
+
+	free(examples[*length]->surname);
+	free(examples[*length]->name);
+	free(examples[*length]->patronymic);
+	free(examples[*length]);
+
+	fclose(f);
+
+	return examples;
 }

@@ -86,6 +86,26 @@ void words_delimited(char **files, size_t count, char *delimeters) {
 	}
 }
 
+void examples(char **files, size_t count) {
+	for (int i = 0; i < count; i++) {
+		size_t n;
+		example_t **examples = read_examples(files[i], &n);
+
+		for (size_t j = 0; j < n; j++)
+			printf("%ld. %s %s %s age: %d, weight: %lf kg\n", j + 1, examples[j]->surname, examples[j]->name, examples[j]->patronymic, examples[j]->age, examples[j]->weight);
+
+		for (size_t j = 0; j < n; j++) {
+			free(examples[j]->surname);
+			free(examples[j]->name);
+			free(examples[j]->patronymic);
+
+			free(examples[j]);
+		}
+
+		free(examples);
+	}
+}
+
 int main(int argc, char **argv) {
 	if (argc < 3) {
 		printf("Incorrect number of arguments.\n");
@@ -104,6 +124,8 @@ int main(int argc, char **argv) {
 		words(argv + 2, argc - 2);
 	else if (!strcmp(argv[1], "words-delimited"))
 		words_delimited(argv + 3, argc - 3, argv[2]);
+	else if (!strcmp(argv[1], "examples"))
+		examples(argv + 2, argc - 2);
 	else
 		printf("Undefined option\n");
 	
