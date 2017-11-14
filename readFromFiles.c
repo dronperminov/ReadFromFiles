@@ -26,6 +26,66 @@ void double_numbers(char **files, size_t count) {
 	}
 }
 
+void lines(char **files, size_t count) {
+	for (int i = 0; i < count; i++) {
+		size_t n;
+		char **lines = read_lines(files[i], &n);
+
+		for (size_t j = 0; j < n; j++)
+			printf("%ld. %s\n", j + 1, lines[j]);
+
+		for (size_t j = 0; j < n; j++)
+			free(lines[j]);
+
+		free(lines);
+	}
+}
+
+void lines_non_empty(char **files, size_t count) {
+	for (int i = 0; i < count; i++) {
+		size_t n;
+		char **lines = read_non_empty_lines(files[i], &n);
+
+		for (size_t j = 0; j < n; j++)
+			printf("%ld. %s\n", j + 1, lines[j]);
+
+		for (size_t j = 0; j < n; j++)
+			free(lines[j]);
+
+		free(lines);
+	}
+}
+
+void words(char **files, size_t count) {
+	for (int i = 0; i < count; i++) {
+		size_t n;
+		char **words = read_words(files[i], &n);
+
+		for (size_t j = 0; j < n; j++)
+			printf("%ld. %s\n", j + 1, words[j]);
+
+		for (size_t j = 0; j < n; j++)
+			free(words[j]);
+
+		free(words);
+	}
+}
+
+void words_delimited(char **files, size_t count, char *delimeters) {
+	for (int i = 0; i < count; i++) {
+		size_t n;
+		char **words = read_delimited_words(files[i], &n, delimeters);
+
+		for (size_t j = 0; j < n; j++)
+			printf("%ld. %s\n", j + 1, words[j]);
+
+		for (size_t j = 0; j < n; j++)
+			free(words[j]);
+
+		free(words);
+	}
+}
+
 int main(int argc, char **argv) {
 	if (argc < 3) {
 		printf("Incorrect number of arguments.\n");
@@ -36,6 +96,14 @@ int main(int argc, char **argv) {
 		int_numbers(argv + 2, argc - 2);
 	else if (!strcmp(argv[1], "double"))
 		double_numbers(argv + 2, argc - 2);
+	else if (!strcmp(argv[1], "lines"))
+		lines(argv + 2, argc - 2);
+	else if (!strcmp(argv[1], "lines-non-empty"))
+		lines_non_empty(argv + 2, argc - 2);
+	else if (!strcmp(argv[1], "words"))
+		words(argv + 2, argc - 2);
+	else if (!strcmp(argv[1], "words-delimited"))
+		words_delimited(argv + 3, argc - 3, argv[2]);
 	else
 		printf("Undefined option\n");
 	
