@@ -121,6 +121,25 @@ void examples_bin(char **files, size_t count) {
 	}
 }
 
+void matrix(char **files, size_t count) {
+	for (int i = 0; i < count; i++) {
+		size_t n, m;
+		double **matrix = read_matrix(files[i], &n, &m);
+
+		for (size_t j = 0; j < n; j++) {
+			for (int k = 0; k < m; k++)
+				printf("%6.2lf", matrix[j][k]);
+
+			printf("\n");
+		}
+
+		for (size_t j = 0; j < n; j++)
+			free(matrix[j]);
+
+		free(matrix);
+	}
+}
+
 int main(int argc, char **argv) {
 	if (argc < 3) {
 		printf("Incorrect number of arguments.\n");
@@ -143,7 +162,10 @@ int main(int argc, char **argv) {
 		examples(argv + 2, argc - 2);
 	else if (!strcmp(argv[1], "examples-bin"))
 		examples_bin(argv + 2, argc - 2);
+	else if (!strcmp(argv[1], "matrix"))
+		matrix(argv + 2, argc - 2);
 	else
+
 		printf("Undefined option\n");
 	
 	return 0;

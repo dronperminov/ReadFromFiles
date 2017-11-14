@@ -3,7 +3,7 @@
 /*	Reading integer numbers from the file "file_path"
 	Usage: 
 		int n;
-		int* numbers = readIntNumbers("numbers.txt", &n);
+		int* numbers = read_int_numbers("numbers.txt", &n);
 */
 int* read_int_numbers(const char *file_path, size_t *length) {
 	*length = 0;
@@ -32,7 +32,7 @@ int* read_int_numbers(const char *file_path, size_t *length) {
 /*	Reading double numbers from the file "file_path"
 	Usage: 
 		int n;
-		int* numbers = readDoubleNumbers("numbers.txt", &n);
+		int* numbers = read_double_numbers("numbers.txt", &n);
 */
 double* read_double_numbers(const char *file_path, size_t *length) {
 	*length = 0;
@@ -62,7 +62,7 @@ double* read_double_numbers(const char *file_path, size_t *length) {
 /*	Reading all non-empty lines from the file "file_path"
 	Usage: 
 		int n;
-		char** lines = readNonEmptyLines("text.txt", &n);
+		char** lines = read_non_empty_lines("text.txt", &n);
 */
 char **read_non_empty_lines(const char *file_path, size_t *length) {
 	*length = 0;
@@ -111,7 +111,7 @@ char **read_non_empty_lines(const char *file_path, size_t *length) {
 /*	Reading all lines from the file "file_path"
 	Usage: 
 		int n;
-		char** lines = readLines("text.txt", &n);
+		char** lines = read_lines("text.txt", &n);
 */
 char **read_lines(const char *file_path, size_t *length) {
 	*length = 0;
@@ -161,7 +161,7 @@ char **read_lines(const char *file_path, size_t *length) {
 /*	Reading words from the file "file_path", separated by space
 	Usage: 
 		int n;
-		char** words = readWords("text.txt", &n);
+		char** words = read_words("text.txt", &n);
 */
 char **read_words(const char *file_path, size_t *length) {
 	*length = 0;
@@ -223,7 +223,7 @@ int is_delim(char c, const char* delimeters) {
 /*	Reading words from the file "file_path", separated by symbols from the array of delimiters 'delimeters'
 	Usage: 
 		int n;
-		char** words = readDelimetedWords("text.txt", &n, " !?-");
+		char** words = read_delimeted_words("text.txt", &n, " !?-");
 */
 char **read_delimited_words(const char *file_path, size_t *length, const char *delimeters) {
 	*length = 0;
@@ -271,6 +271,11 @@ char **read_delimited_words(const char *file_path, size_t *length, const char *d
 	return words;
 }
 
+/*	Reading struct example_t from the file "file_path"
+	Usage: 
+		int n;
+		example_t **examples = read_examples("text.txt", &n);
+*/
 example_t **read_examples(const char *file_path, size_t *length) {
 	*length = 0;
 
@@ -308,6 +313,11 @@ example_t **read_examples(const char *file_path, size_t *length) {
 	return examples;
 }
 
+/*	Reading struct example_bin_t from the BINARY file "file_path"
+	Usage: 
+		int n;
+		example_bin_t **examples = read_examples_bin("text.txt", &n);
+*/
 example_bin_t **read_examples_bin(const char *file_path, size_t *length) {
 	*length = 0;
 
@@ -335,4 +345,33 @@ example_bin_t **read_examples_bin(const char *file_path, size_t *length) {
 	fclose(f);
 
 	return examples;
+}
+
+/*	Reading double matrix from the file "file_path"
+	Usage: 
+		int n, m;
+		double **examples = read_matrix("text.txt", &n, &m);
+*/
+double **read_matrix(const char *file_path, size_t *n, size_t *m) {
+	*n = *m = 0;
+
+	FILE *f = fopen(file_path, "r");
+
+	if (!f)
+		return NULL;
+
+	fscanf(f, "%ld %ld", n, m);
+
+	double **matrix = (double **) malloc(*n * sizeof(double *));
+
+	for (int i = 0; i < *n; i++) {
+		matrix[i] = (double *) malloc(*m * sizeof(double));
+
+		for (int j = 0; j < *m; j++)
+			fscanf(f, "%lf", &matrix[i][j]);
+	}
+
+	fclose(f);
+
+	return matrix;
 }

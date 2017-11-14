@@ -33,3 +33,5 @@ char **read_delimited_words(const char *file_path, size_t *length, const char *d
 
 example_t **read_examples(const char *file_path, size_t *length);
 example_bin_t **read_examples_bin(const char *file_path, size_t *length);
+
+double **read_matrix(const char *file_path, size_t *n, size_t *m);
