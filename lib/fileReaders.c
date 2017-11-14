@@ -307,3 +307,32 @@ example_t **read_examples(const char *file_path, size_t *length) {
 
 	return examples;
 }
+
+example_bin_t **read_examples_bin(const char *file_path, size_t *length) {
+	*length = 0;
+
+	FILE *f = fopen(file_path, "rb");
+
+	if (!f)
+		return NULL;
+
+	size_t capacity = 1;
+
+	example_bin_t **examples = (example_bin_t **) malloc(capacity * sizeof(example_bin_t *));
+	examples[0] = (example_bin_t *) malloc(sizeof(example_bin_t));
+
+	while (fread(examples[*length], sizeof(example_bin_t), 1, f) > 0) {
+		(*length)++;
+
+		if (*length >= capacity)
+			examples = (example_bin_t **) realloc(examples, (capacity *= 2) * sizeof(example_bin_t *));
+
+		examples[*length] = (example_bin_t *) malloc(sizeof(example_bin_t));
+	}
+
+	free(examples[*length]);
+
+	fclose(f);
+
+	return examples;
+}
